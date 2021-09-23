@@ -13,10 +13,15 @@ async function start(){
         console.log("</> До обнуления сбора информации: " + Math.floor(info[0].month - Date.now()/1000) + " секунд")
     }
     else {
-        console.log("</> Новые сезон")
+        console.log("</> Новый сезон")
 
-        await Storage.push("leaderboards_last_month")
-        await mysql.execute("UPDATE info SET month = ?", [Math.floor(Date.now()/1000) + (60 * 60 * 24 * 7 * 29)])
+        try{
+            await Storage.push("leaderboards_last_month")
+            await mysql.execute("UPDATE info SET month = ?", [Math.floor(Date.now()/1000) + (60 * 60 * 24 * 7 * 29)])
+        }
+        catch (e) {
+            console.error(e)
+        }
     }
 
     info = await mysql.execute("SELECT * FROM info")

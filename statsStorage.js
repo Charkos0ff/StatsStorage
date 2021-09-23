@@ -1,3 +1,5 @@
+const config = require('./config')
+
 class Storage {
     constructor(mysql) {
         this.mysql = mysql
@@ -20,7 +22,7 @@ class Storage {
     }
 
     async clear(game, table) {
-        return (game) ? this.mysql.execute("DELETE FROM ? WHERE `game` = ?", [table, game]) : this.mysql.execute("TRUNCATE ?", [table])
+        return (game) ? this.mysql.execute(`DELETE FROM ${table} WHERE 'game' = ?`, [game]) : this.mysql.execute("TRUNCATE " + table)
     }
 }
 
